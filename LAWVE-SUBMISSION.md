@@ -6,7 +6,7 @@ Form: https://lawve.ai/new/skill (owner dropdown: **Ansvar AI** / @ansvar-ai)
 |---|---|
 | Upload | Zip of this folder (SKILL.md + README.md + LICENSE). Lawve auto-parses name, files, language, and LICENSE |
 | Name | Regulatory Threat Model (STRIDE + LINDDUN) |
-| Description | Runs a server-enforced STRIDE threat model and LINDDUN privacy threat model over a system described in prose, screens dependencies against live CVE/KEV/EPSS data, and maps the EU security obligations (GDPR, NIS2, CRA, AI Act) that actually apply — every regulatory statement cited from officially published text fetched through the Ansvar Gateway connector at answer time. Application dates checked, scope limits stated, never answered from model memory. |
+| Description | Runs a server-enforced STRIDE threat model and LINDDUN privacy threat model over a system described in prose, screens named dependencies against live CVE/KEV/EPSS data, and builds a cited screen of which EU security obligations (GDPR, NIS2, CRA, AI Act) may apply and which need determination — every regulatory statement fetched from officially published text through the Ansvar Gateway connector at answer time, with scope, role, and application-date limits stated. Never answered from model memory; never a compliance verdict. |
 | Category (practice area) | Compliance & Regulatory |
 | Jurisdiction | EU |
 | Language | English |
