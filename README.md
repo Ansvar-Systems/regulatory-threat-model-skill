@@ -28,7 +28,8 @@ secure?":
 - **Nothing legal is answered from model memory.** Every obligation in
   the screen carries the instrument, article, and source URL of the
   provision fetched from the official publisher — with applicability
-  determined, not assumed: GDPR scope and role tests (Arts. 2/3),
+  determined, not assumed: GDPR material and territorial scope tests
+  (Arts. 2/3) with each duty attributed to its role,
   NIS2's binding-through-national-transposition reality, the CRA's
   phased application dates (Arts. 69/71), and the AI Act's own
   temporal gates (Arts. 111/113) are all part of the screen.
@@ -142,7 +143,7 @@ no-match / retrieval-failure outcomes separate.
 
 | Instrument | Role in this skill |
 |---|---|
-| [Regulation (EU) 2016/679 (GDPR)](https://eur-lex.europa.eu/eli/reg/2016/679/oj) | Scope and role tests (Arts. 2/3), security of processing (Art. 32), data protection by design (Art. 25), DPIA screen (Art. 35) |
+| [Regulation (EU) 2016/679 (GDPR)](https://eur-lex.europa.eu/eli/reg/2016/679/oj) | Material and territorial scope tests (Arts. 2/3); role-attributed duties: security of processing (Art. 32, controller and processor), data protection by design (Art. 25, controller), DPIA screen (Art. 35, controller) |
 | [Directive (EU) 2022/2555 (NIS2)](https://eur-lex.europa.eu/eli/dir/2022/2555/oj) | Entity scope check (Art. 2) before any risk-management-measures claim (Art. 21), applied through national transposition |
 | [Regulation (EU) 2024/2847 (CRA)](https://eur-lex.europa.eu/eli/reg/2024/2847/oj) | Product scope and roles (Arts. 2/3), manufacturer and reporting obligations (Arts. 13/14) against served application and transitional dates (Arts. 69/71) |
 | [Regulation (EU) 2024/1689 (AI Act)](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) | Accuracy, robustness and cybersecurity for high-risk AI systems (Art. 15), gated on its served application dates and pre-existing-system rules (Arts. 111/113) |
@@ -156,9 +157,10 @@ source.
 
 - Every tool-call shape and canonical reference in SKILL.md was
   verified against the live gateway on 2026-07-21.
-- Release version 1.1 completed a multi-round adversarial review with
-  live EUR-Lex cross-checking before publication (2026-07-21); the
-  reviewed artifact is the v1.1 commit in this repository.
+- Published 2026-07-21 after a three-round adversarial review with live
+  EUR-Lex cross-checking; the only changes after the final verification
+  round were the two README wording corrections that round itself
+  requested.
 - Companion skills, same author and grounding discipline:
   `cra-vulnerability-obligations` (full CRA product-duty analysis),
   `incident-reporting-navigator` (who to notify, where, by when).
