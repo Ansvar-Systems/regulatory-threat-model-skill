@@ -157,10 +157,12 @@ source.
 
 - Every tool-call shape and canonical reference in SKILL.md was
   verified against the live gateway on 2026-07-21.
-- Published 2026-07-21 after a three-round adversarial review with live
-  EUR-Lex cross-checking; the only changes after the final verification
-  round were the two README wording corrections that round itself
-  requested.
+- Published after a three-round adversarial review with live EUR-Lex
+  cross-checking (2026-07-21). The free lane was then executed
+  end-to-end on a live Free-plan token (2026-07-22): every free-lane
+  tool, all 16 legal references with full citations, and the honest
+  Premium refusal on the workflow gate — 49/49 checks. v1.2 folds the
+  one finding (a Requirements grouping correction) back in.
 - Companion skills, same author and grounding discipline:
   `cra-vulnerability-obligations` (full CRA product-duty analysis),
   `incident-reporting-navigator` (who to notify, where, by when).

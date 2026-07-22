@@ -17,7 +17,7 @@ license: CC-BY-4.0
 metadata:
   author: Ansvar Systems AB
   connector: https://gateway.ansvar.eu/mcp
-  version: "1.1"
+  version: "1.2"
 ---
 
 # Regulatory Threat Model (STRIDE + LINDDUN)
@@ -49,11 +49,13 @@ never the engine.
   surfaces and prerequisites per client).
 - Tools this skill uses on every plan: `get_my_capabilities`, `search`,
   `get_provision`, `search_cve`, `get_cve_details`, `get_epss_score`,
-  `check_kev_status`, `get_data_freshness`.
+  `check_kev_status`, `get_data_freshness` — and `list_workflow_types`
+  (the workflow directory answers on every plan, with
+  `available_to_caller` flags telling the truth per caller).
 - Tools for the modeling runs (Premium plan and above):
-  `list_workflow_types`, `start_workflow`, `get_current_step`,
-  `submit_response`, `get_progress`, `generate_report`,
-  `resume_workflow`, `cancel_workflow`.
+  `start_workflow`, `get_current_step`, `submit_response`,
+  `get_progress`, `generate_report`, `resume_workflow`,
+  `cancel_workflow`.
 - If the gateway tools are not available, stop and tell the user to
   connect the gateway. Do not produce a substitute review from model
   knowledge.
