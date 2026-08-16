@@ -1,0 +1,21 @@
+{
+  "repo": "Ansvar-Systems/ansvar-workflow-mcp",
+  "commit": "005c22501587319ca3361660873fba5b8f7a4272",
+  "manifest_sha256": "df1915dea04081f90712992eab430a886e7fcbcee61647e783a29a2f6c391982",
+  "blocks": [
+    {
+      "id": "workflow-loop",
+      "path": "instructions/dist/fragments/workflow-loop.md",
+      "sha256": "527fb2c5a9a692631f42184896aa69f23650dea4141e43707fbe553a3bbbb0d6",
+      "vendored": "fragments/workflow-loop.md",
+      "heading_shift": 0
+    },
+    {
+      "id": "delivery-rules",
+      "path": "instructions/dist/fragments/delivery-rules.md",
+      "sha256": "98431354e778e70b38920229c1562f03a0d9af7adac2bdfa10b9fa37317b5d58",
+      "vendored": "fragments/delivery-rules.md",
+      "heading_shift": 0
+    }
+  ]
+}

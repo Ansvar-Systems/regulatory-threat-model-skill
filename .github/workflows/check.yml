@@ -1,0 +1,36 @@
+name: check
+
+# Two things can silently break this skill, and both are cheap to catch:
+# a generated block edited by hand (which would republish text the workflow
+# library does not actually serve), and frontmatter that stops parsing (which
+# makes the file uninstallable rather than merely wrong).
+#
+# The check is fully local. compose.py --check compares the pin, the vendored
+# fragments and the marked blocks against each other, so no ansvar-workflow-mcp
+# checkout and no network access are needed here — importing new fragment bytes
+# is a deliberate act on a workstation, never something CI does.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML
+        run: pip install --disable-pip-version-check pyyaml
+
+      - name: Generated blocks match the pinned fragments
+        run: python3 scripts/compose.py --check
+
+      - name: SKILL.md frontmatter is valid
+        run: python3 scripts/check_frontmatter.py

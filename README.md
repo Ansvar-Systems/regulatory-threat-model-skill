@@ -21,10 +21,11 @@ secure?":
 
 - **The threat model is real, not improvised.** STRIDE and LINDDUN run
   on the Ansvar Gateway's workflow engine, which enforces the steps and
-  quality gates server-side and produces the report (PDF/HTML/DOCX).
-  The skill forbids the agent from passing off model-generated output
-  as the workflow's deliverable — on plans without workflow access it
-  produces a scoping worksheet, never an imitation register.
+  quality gates server-side and produces the report — JSON on every
+  plan, rendered to HTML, PDF or DOCX by plan. The skill forbids the
+  agent from passing off model-generated output as the workflow's
+  deliverable — when no run can be started it produces a scoping
+  worksheet, never an imitation register.
 - **Nothing legal is answered from model memory.** Every obligation in
   the screen carries the instrument, article, and source URL of the
   provision fetched from the official publisher — with applicability
@@ -45,8 +46,12 @@ secure?":
 - **STRIDE threat model** — per-component threats with category,
   severity, affected assets, mitigations, and regulatory citations.
   Server-enforced workflow, report via `generate_report`.
-- **LINDDUN privacy threat model** — per-flow privacy threats with harm
-  assessment and mitigations, offered whenever personal data flows.
+- **LINDDUN privacy threat model** — its own workflow, not a variant of
+  the STRIDE one: personal-data tagging and inventory, enumeration
+  across all seven LINDDUN categories, data-subject population impact,
+  harm-band calibration, and mitigations mapped to privacy-enhancing
+  technologies with GDPR Article 25 traceability. Offered whenever
+  personal data flows.
 - **Dependency exposure screen** — live CVE leads per component you
   name, confirmed against served affected-version data, with CISA KEV
   status and FIRST's EPSS estimate; reported honestly (a keyword hit is
@@ -70,10 +75,11 @@ The skill needs the **Ansvar Gateway** MCP connector:
 - Endpoint: `https://gateway.ansvar.eu/mcp` (OAuth 2.1 with Dynamic
   Client Registration)
 - Signup at [ansvar.eu](https://ansvar.eu). The dependency screen and
-  obligations screen work on the **Free plan**; the STRIDE and LINDDUN
-  workflow runs need **Premium** or above (metered monthly); the DPIA
-  workflow needs **Team** or above. This skill itself never uploads
-  documents on any plan.
+  obligations screen work on the **Free plan**. The STRIDE run is
+  included on every plan within a monthly run allowance — 1 run on
+  Free, 2 on Solo, 5 on Premium, 20 per seat on Team — and the
+  **LINDDUN** privacy run needs **Premium** or above. This skill itself
+  never uploads documents on any plan.
 - Works in MCP-capable agents — Claude, ChatGPT, Microsoft Copilot,
   Gemini and others. Supported surfaces and per-client prerequisites
   differ; see the current client matrix at
@@ -116,10 +122,10 @@ vibe-coded app security, AI-built app.
 
 | Phase | What happens |
 |---|---|
-| 0. Plan check | `get_my_capabilities` — full mode on Premium+, honest free lane otherwise |
+| 0. Plan check | `get_my_capabilities` — the plan and the runs left this month decide which steps run; honest free lane when none can be started |
 | 1. Staged intake | Architecture-level system snapshot, data picture, key assets, coarse legal posture — confirmed by you before anything is transmitted; no code, no secrets, no uploads |
 | 2. STRIDE run | Server-enforced workflow, started only after you explicitly approve the metered run; report via `generate_report` |
-| 3. LINDDUN run | Offered when personal data flows; separate explicit approval; ROPA uploads declined — processing described in prose |
+| 3. LINDDUN run | Premium and above, offered when personal data flows; separate explicit approval; ROPA uploads declined — processing described in prose |
 | 4. Dependency screen | CVE leads per named component, confirmed/possible/unmatched against served version data, KEV + EPSS from their attributed surfaces, feed age stated |
 | 5. Obligations screen | GDPR / CRA / NIS2 / AI Act provisions fetched and applied with their scope, role, and date limits — verdicts, never "all of this binds you" |
 | 6. Deliverable | Workflow reports + exposure table + cited obligations screen + DPIA recommendation + the record of what was searched and what stayed unresolved |
@@ -153,22 +159,71 @@ All instrument text is fetched at answer time from official publishers
 with per-row citations; the table above is orientation, not a data
 source.
 
+## Composed content
+
+Two sections of `SKILL.md` are not written here. **Run the workflow**
+and **Deliver the report** are compiled in
+[`ansvar-workflow-mcp`](https://github.com/Ansvar-Systems/ansvar-workflow-mcp)
+and composed into this file byte-for-byte between HTML comment markers:
+
+```
+<!-- BEGIN GENERATED: workflow-loop @ pin -->   …   <!-- END GENERATED: workflow-loop -->
+<!-- BEGIN GENERATED: delivery-rules @ pin -->  …   <!-- END GENERATED: delivery-rules -->
+```
+
+They are the run loop and the delivery contract that every Ansvar
+workflow skill follows, so this one consumes them instead of restating
+them. Everything else is hand-written here: the ground rules, the seven
+review steps, and all tier and metering facts — the fragments carry no
+tier facts by design.
+
+The pin is `scripts/fragments.pin.json` — the upstream commit, the
+released manifest's sha256, and a sha256 per fragment. Nothing is
+written until all three verify.
+
+| Command | What it does |
+|---|---|
+| `python3 scripts/compose.py --source ../ansvar-workflow-mcp` | Import the pinned bytes, vendor them to `fragments/`, rewrite the marked blocks |
+| `python3 scripts/compose.py --check` | Verify pin ↔ vendored fragments ↔ marked blocks. Needs no checkout; this is what CI runs |
+| `python3 scripts/check_frontmatter.py` | Parse the frontmatter and confirm its provenance still matches the pin |
+
+Editing text inside the markers is a build break, not a change: fix it
+upstream, re-release, re-pin, re-run. The re-pin recipe is in the header
+of `scripts/compose.py`.
+
+**Why this exists.** The copy published at ansvar.eu was edited in place
+on 2026-07-26 for a tier change and never back-ported, so the canonical
+repo and the served file disagreed for weeks about who can run a STRIDE
+model — nothing gated the hand lane. v1.3 reunifies them on what the
+gateway actually serves, and puts the half most likely to drift under a
+check.
+
 ## Provenance
 
-- Every tool-call shape and canonical reference in SKILL.md was
-  verified against the live gateway on 2026-07-21.
+- The tool-call shapes and canonical references in SKILL.md were
+  verified against the live gateway on 2026-07-21. The plan, metering
+  and workflow-step facts were re-verified on 2026-08-16 against the
+  live gateway and the pinned workflow definitions.
 - Published after a three-round adversarial review with live EUR-Lex
   cross-checking (2026-07-21). The free lane was then executed
   end-to-end on a live Free-plan token (2026-07-22): every free-lane
   tool, all 16 legal references with full citations, and the honest
   Premium refusal on the workflow gate — 49/49 checks. v1.2 folds the
-  one finding (a Requirements grouping correction) back in.
+  one finding (a Requirements grouping correction) back in. That run
+  predates the included-run allowance: a Free token today starts a
+  STRIDE run rather than meeting the refusal it recorded.
+- v1.3 (2026-08-16) composes the run loop and the delivery contract
+  from the workflow library (see "Composed content"), reverses Step 6
+  onto the server-built delivery receipt, and reunifies the repo with
+  the published copy on the served tier facts.
 - Companion skills, same author and grounding discipline:
   `cra-vulnerability-obligations` (full CRA product-duty analysis),
   `incident-reporting-navigator` (who to notify, where, by when).
 - The same file is served at
   [ansvar.eu/skills/regulatory-threat-model/SKILL.md](https://ansvar.eu/skills/regulatory-threat-model/SKILL.md);
-  this repository is the canonical home.
+  this repository is the canonical home. That mirror is a hand-published
+  lane, not an importer lane — it updates by hand-copy on release, so a
+  release is not finished until the served copy is refreshed from here.
 - Built by [Ansvar Systems AB](https://ansvar.eu) — the team behind the
   Ansvar Gateway.
 
