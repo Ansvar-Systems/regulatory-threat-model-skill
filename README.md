@@ -159,6 +159,45 @@ All instrument text is fetched at answer time from official publishers
 with per-row citations; the table above is orientation, not a data
 source.
 
+## Composed content
+
+Two sections of `SKILL.md` are not written here. **Run the workflow**
+and **Deliver the report** are compiled in
+[`ansvar-workflow-mcp`](https://github.com/Ansvar-Systems/ansvar-workflow-mcp)
+and composed into this file byte-for-byte between HTML comment markers:
+
+```
+<!-- BEGIN GENERATED: workflow-loop @ pin -->   …   <!-- END GENERATED: workflow-loop -->
+<!-- BEGIN GENERATED: delivery-rules @ pin -->  …   <!-- END GENERATED: delivery-rules -->
+```
+
+They are the run loop and the delivery contract that every Ansvar
+workflow skill follows, so this one consumes them instead of restating
+them. Everything else is hand-written here: the ground rules, the seven
+review steps, and all tier and metering facts — the fragments carry no
+tier facts by design.
+
+The pin is `scripts/fragments.pin.json` — the upstream commit, the
+released manifest's sha256, and a sha256 per fragment. Nothing is
+written until all three verify.
+
+| Command | What it does |
+|---|---|
+| `python3 scripts/compose.py --source ../ansvar-workflow-mcp` | Import the pinned bytes, vendor them to `fragments/`, rewrite the marked blocks |
+| `python3 scripts/compose.py --check` | Verify pin ↔ vendored fragments ↔ marked blocks. Needs no checkout; this is what CI runs |
+| `python3 scripts/check_frontmatter.py` | Parse the frontmatter and confirm its provenance still matches the pin |
+
+Editing text inside the markers is a build break, not a change: fix it
+upstream, re-release, re-pin, re-run. The re-pin recipe is in the header
+of `scripts/compose.py`.
+
+**Why this exists.** The copy published at ansvar.eu was edited in place
+on 2026-07-26 for a tier change and never back-ported, so the canonical
+repo and the served file disagreed for weeks about who can run a STRIDE
+model — nothing gated the hand lane. v1.3 reunifies them on what the
+gateway actually serves, and puts the half most likely to drift under a
+check.
+
 ## Provenance
 
 - The tool-call shapes and canonical references in SKILL.md were
@@ -170,13 +209,21 @@ source.
   end-to-end on a live Free-plan token (2026-07-22): every free-lane
   tool, all 16 legal references with full citations, and the honest
   Premium refusal on the workflow gate — 49/49 checks. v1.2 folds the
-  one finding (a Requirements grouping correction) back in.
+  one finding (a Requirements grouping correction) back in. That run
+  predates the included-run allowance: a Free token today starts a
+  STRIDE run rather than meeting the refusal it recorded.
+- v1.3 (2026-08-16) composes the run loop and the delivery contract
+  from the workflow library (see "Composed content"), reverses Step 6
+  onto the server-built delivery receipt, and reunifies the repo with
+  the published copy on the served tier facts.
 - Companion skills, same author and grounding discipline:
   `cra-vulnerability-obligations` (full CRA product-duty analysis),
   `incident-reporting-navigator` (who to notify, where, by when).
 - The same file is served at
   [ansvar.eu/skills/regulatory-threat-model/SKILL.md](https://ansvar.eu/skills/regulatory-threat-model/SKILL.md);
-  this repository is the canonical home.
+  this repository is the canonical home. That mirror is a hand-published
+  lane, not an importer lane — it updates by hand-copy on release, so a
+  release is not finished until the served copy is refreshed from here.
 - Built by [Ansvar Systems AB](https://ansvar.eu) — the team behind the
   Ansvar Gateway.
 
