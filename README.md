@@ -46,8 +46,12 @@ secure?":
 - **STRIDE threat model** — per-component threats with category,
   severity, affected assets, mitigations, and regulatory citations.
   Server-enforced workflow, report via `generate_report`.
-- **LINDDUN privacy threat model** — per-flow privacy threats with harm
-  assessment and mitigations, offered whenever personal data flows.
+- **LINDDUN privacy threat model** — its own workflow, not a variant of
+  the STRIDE one: personal-data tagging and inventory, enumeration
+  across all seven LINDDUN categories, data-subject population impact,
+  harm-band calibration, and mitigations mapped to privacy-enhancing
+  technologies with GDPR Article 25 traceability. Offered whenever
+  personal data flows.
 - **Dependency exposure screen** — live CVE leads per component you
   name, confirmed against served affected-version data, with CISA KEV
   status and FIRST's EPSS estimate; reported honestly (a keyword hit is
@@ -157,8 +161,10 @@ source.
 
 ## Provenance
 
-- Every tool-call shape and canonical reference in SKILL.md was
-  verified against the live gateway on 2026-07-21.
+- The tool-call shapes and canonical references in SKILL.md were
+  verified against the live gateway on 2026-07-21. The plan, metering
+  and workflow-step facts were re-verified on 2026-08-16 against the
+  live gateway and the pinned workflow definitions.
 - Published after a three-round adversarial review with live EUR-Lex
   cross-checking (2026-07-21). The free lane was then executed
   end-to-end on a live Free-plan token (2026-07-22): every free-lane

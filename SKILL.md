@@ -302,14 +302,22 @@ caller's plan actually serves — a format refusal names the served set
 in `included_formats`, so read that rather than guessing a second time.
 The engine's
 response schema governs at runtime: the field names cited here were
-verified on 2026-07-21 — if the served shapes differ, follow the served
+verified on 2026-08-16 — if the served shapes differ, follow the served
 schema and say so.
 
 ### Step 3 — LINDDUN run (Premium and above, when personal data flows)
 
 If the data picture shows personal data, offer the LINDDUN privacy
-threat model as a second metered run (separate rule-4 consent): same
-loop with `workflow_type: "linddun"`. Its intake may invite a ROPA
+threat model as a second metered run (separate rule-4 consent):
+`workflow_type: "linddun"`, driven through the same loop. It is not a
+privacy-flavoured STRIDE run, and its steps are not STRIDE's. After the
+shared opening step it asks you to tag personal data per store and per
+flow, build an inventory across data stores, flows and subject
+populations, enumerate threats in all seven LINDDUN categories, assess
+the impact on subject populations, calibrate harm bands, and map
+mitigations to privacy-enhancing technologies with GDPR Article 25
+traceability. Take each step from `get_current_step` as it comes rather
+than anticipating it. Its intake may invite a ROPA
 upload — decline per rule 3 and describe the processing in prose. If
 the user declines the second run, note in the deliverable that privacy
 threats were not separately modeled.
@@ -429,7 +437,12 @@ Assemble:
 
 ## Verified call shapes
 
-Verified against the live gateway on 2026-07-21:
+The call shapes below were verified against the live gateway on
+2026-07-21. The plan, metering and workflow facts were re-verified on
+2026-08-16 — against the live gateway (`get_my_capabilities`,
+`list_workflow_types`) and against the pinned workflow definitions this
+file composes from (frontmatter `composed_from`). The legal references
+were not re-fetched on that pass.
 
 ```json
 {"tool": "start_workflow", "arguments": {"workflow_type": "threat_model", "entity_description": "<one-paragraph system summary>"}}
@@ -440,13 +453,30 @@ Verified against the live gateway on 2026-07-21:
 {"tool": "get_provision", "arguments": {"canonical_ref": "GDPR:art_32", "jurisdiction": "EU"}}
 ```
 
-Notes from live verification: `threat_model` and `linddun` both open at
-step `scoping.system_description` with a quality gate requiring
-`system_description` and `key_assets`; `search_cve` rows arrive under
-`data.cves` with a `_citation` block and response metadata carrying
-`data_freshness`/`last_sync_time`; a cancelled zero-progress run
-returned a refund notice with an explicit monthly cap. These shapes are
-a snapshot — the served schema governs at runtime (Step 2).
+Notes from verification:
+
+- `threat_model` and `linddun` both open at step
+  `scoping.system_description`, each with a quality gate requiring
+  `system_description` and `key_assets` — and they diverge immediately
+  after. A shared opening step is not a shared backbone: LINDDUN runs
+  its own spine from step two onward (Step 3). Take every step after
+  the first from `get_current_step`, never from this file.
+- `list_workflow_types` rows carry `workflow_type`, `base_type`,
+  `is_variant`, `display_name`, `description`, `produces`,
+  `jurisdiction`, `authority`, `required_slots`,
+  `overridable_configurable` and the legal-review fields, plus the
+  gateway's own `minimum_tier` and `available_to_caller`; a row locked
+  for tier reasons also carries a `tier_caveat` explaining the lock.
+  Read availability from `available_to_caller`, never by comparing
+  tiers yourself — the included-run lane admits `threat_model` on plans
+  below the `minimum_tier` the same row reports.
+- `search_cve` rows arrive under `data.cves` with a `_citation` block
+  and response metadata carrying `data_freshness`/`last_sync_time`; a
+  cancelled zero-progress run returned a refund notice with an explicit
+  monthly cap (both 2026-07-21).
+
+These shapes are a snapshot — the served schema governs at runtime
+(Step 2).
 
 Pre-verified `canonical_ref` values (rule 6 exception), all with
 `jurisdiction: "EU"`: `GDPR:art_2`, `GDPR:art_3`, `GDPR:art_25`,
