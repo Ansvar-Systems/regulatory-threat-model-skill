@@ -20,10 +20,10 @@ metadata:
   version: "1.3"
   composed_from:
     repo: Ansvar-Systems/ansvar-workflow-mcp
-    commit: ee9bd7b4ebb70799e44976cc5f6b60295271af81
+    commit: 5fae024377b9fecac45828f84c66af1d80b172f1
     fragments:
       workflow-loop: e17cd98e6822022ea384454fc144e9e784a84ab8451dc523264265ec6cfa5edc
-      delivery-rules: 5dba9c7309bd2f9e121ae22e6fad66a1acefa90f47a380aa18dd9284176a3058
+      delivery-rules: 98431354e778e70b38920229c1562f03a0d9af7adac2bdfa10b9fa37317b5d58
 ---
 
 # Regulatory Threat Model (STRIDE + LINDDUN)
@@ -635,7 +635,11 @@ refusal flags, the unresolved citations, the preview watermark.
 The receipt is a receipt, not a second copy of the report. It may preview a few
 findings when labelled as a subset ("3 highest-severity of 27"); the full set
 lives in the report JSON and in the rendered artifact. Never paste the whole
-findings table into chat as if it were the deliverable.
+findings table into chat as if it were the deliverable. Where the run produced
+no rendered artifact — a json-format run — the typed report itself is the
+deliverable: when the user wants more than the receipt, hand the report over
+whole, as a saved file or structured output in your client's native shape,
+never as a re-authored summary.
 
 ### Artifacts
 

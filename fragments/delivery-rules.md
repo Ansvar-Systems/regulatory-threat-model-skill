@@ -18,7 +18,11 @@ refusal flags, the unresolved citations, the preview watermark.
 The receipt is a receipt, not a second copy of the report. It may preview a few
 findings when labelled as a subset ("3 highest-severity of 27"); the full set
 lives in the report JSON and in the rendered artifact. Never paste the whole
-findings table into chat as if it were the deliverable.
+findings table into chat as if it were the deliverable. Where the run produced
+no rendered artifact — a json-format run — the typed report itself is the
+deliverable: when the user wants more than the receipt, hand the report over
+whole, as a saved file or structured output in your client's native shape,
+never as a re-authored summary.
 
 ### Artifacts
 
