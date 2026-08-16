@@ -39,6 +39,14 @@ customer believes it has.
 6. Repeat from step 3 until the engine reports `status: ready_for_report`, then
    call `generate_report(workflow_id)`.
 
+When a step declares `data_to_fetch`, what you fetched rides `fetched_data`,
+keyed by the step's declared keys, each value a typed envelope: `{"status":
+"fetched", "results": [...]}` with the rows you actually used (text plus
+`source_url`), `{"status": "fetched_empty", "results": []}` for a call that
+returned nothing, or `{"status": "error", "error_message": "..."}` for a call
+that failed. The engine rejects any other shape, and an empty result is
+recorded as empty — the refusal discipline below, in envelope form.
+
 Read every `step_id` from `get_current_step`. Step ids live in the workflow
 definition, they differ per type and per variant, and dynamic stages mint one
 step per control or per risk at run time — an id you remember from an earlier

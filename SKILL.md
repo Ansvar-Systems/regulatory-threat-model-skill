@@ -20,9 +20,9 @@ metadata:
   version: "1.3"
   composed_from:
     repo: Ansvar-Systems/ansvar-workflow-mcp
-    commit: 5fae024377b9fecac45828f84c66af1d80b172f1
+    commit: 005c22501587319ca3361660873fba5b8f7a4272
     fragments:
-      workflow-loop: e17cd98e6822022ea384454fc144e9e784a84ab8451dc523264265ec6cfa5edc
+      workflow-loop: 527fb2c5a9a692631f42184896aa69f23650dea4141e43707fbe553a3bbbb0d6
       delivery-rules: 98431354e778e70b38920229c1562f03a0d9af7adac2bdfa10b9fa37317b5d58
 ---
 
@@ -316,6 +316,14 @@ customer believes it has.
    Fix what the hint names and submit again.
 6. Repeat from step 3 until the engine reports `status: ready_for_report`, then
    call `generate_report(workflow_id)`.
+
+When a step declares `data_to_fetch`, what you fetched rides `fetched_data`,
+keyed by the step's declared keys, each value a typed envelope: `{"status":
+"fetched", "results": [...]}` with the rows you actually used (text plus
+`source_url`), `{"status": "fetched_empty", "results": []}` for a call that
+returned nothing, or `{"status": "error", "error_message": "..."}` for a call
+that failed. The engine rejects any other shape, and an empty result is
+recorded as empty — the refusal discipline below, in envelope form.
 
 Read every `step_id` from `get_current_step`. Step ids live in the workflow
 definition, they differ per type and per variant, and dynamic stages mint one
