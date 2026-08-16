@@ -382,6 +382,12 @@ interview, Steps 4 and 5 are direct tool calls, and Step 6 assembles.
 When no run can be started, Steps 1, 4, 5 and 6 are the whole
 deliverable.
 
+One precedence note. Server authority, as the loop above states it,
+governs the run's mechanics: step ids, required fields, gate verdicts.
+It does not turn an optional affordance into an obligation — where a
+step invites an optional document upload, rule 3 declines it and
+answers in prose, which the engine accepts.
+
 ### Step 0 — Plan check
 
 Call `get_my_capabilities` once to orient (rule 4 requires a fresh
@@ -398,10 +404,13 @@ numbers quoted anywhere in this file.
   Premium. Say that in one sentence, without pressure, and note that
   the run grounds its enrichment at the plan's own search scope — case
   law and agency guidance enter the run from Premium up.
-- **Allowance spent, or the included-run lane unavailable:** run the
-  free lane (Steps 1, 4, 5 and 6 without the workflow reports), say
-  plainly that no run can be started and when the allowance resets, and
-  deliver the free lane well.
+- **Allowance spent, or the included-run lane unavailable:** on Free
+  and Solo the allowance is a hard stop — run the free lane (Steps 1,
+  4, 5 and 6 without the workflow reports), say plainly when it resets,
+  and deliver the free lane well. From Premium up a start past the
+  allowance is admitted with an overage notice (rule 4): name the cost,
+  offer that path, and wait for the explicit yes — the free lane stays
+  the no-spend alternative.
 
 ### Step 1 — Intake (staged)
 
