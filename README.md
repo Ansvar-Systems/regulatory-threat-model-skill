@@ -21,10 +21,11 @@ secure?":
 
 - **The threat model is real, not improvised.** STRIDE and LINDDUN run
   on the Ansvar Gateway's workflow engine, which enforces the steps and
-  quality gates server-side and produces the report (PDF/HTML/DOCX).
-  The skill forbids the agent from passing off model-generated output
-  as the workflow's deliverable — on plans without workflow access it
-  produces a scoping worksheet, never an imitation register.
+  quality gates server-side and produces the report — JSON on every
+  plan, rendered to HTML, PDF or DOCX by plan. The skill forbids the
+  agent from passing off model-generated output as the workflow's
+  deliverable — when no run can be started it produces a scoping
+  worksheet, never an imitation register.
 - **Nothing legal is answered from model memory.** Every obligation in
   the screen carries the instrument, article, and source URL of the
   provision fetched from the official publisher — with applicability
@@ -70,10 +71,11 @@ The skill needs the **Ansvar Gateway** MCP connector:
 - Endpoint: `https://gateway.ansvar.eu/mcp` (OAuth 2.1 with Dynamic
   Client Registration)
 - Signup at [ansvar.eu](https://ansvar.eu). The dependency screen and
-  obligations screen work on the **Free plan**; the STRIDE and LINDDUN
-  workflow runs need **Premium** or above (metered monthly); the DPIA
-  workflow needs **Team** or above. This skill itself never uploads
-  documents on any plan.
+  obligations screen work on the **Free plan**. The STRIDE run is
+  included on every plan within a monthly run allowance — 1 run on
+  Free, 2 on Solo, 5 on Premium, 20 per seat on Team — and the
+  **LINDDUN** privacy run needs **Premium** or above. This skill itself
+  never uploads documents on any plan.
 - Works in MCP-capable agents — Claude, ChatGPT, Microsoft Copilot,
   Gemini and others. Supported surfaces and per-client prerequisites
   differ; see the current client matrix at
@@ -116,10 +118,10 @@ vibe-coded app security, AI-built app.
 
 | Phase | What happens |
 |---|---|
-| 0. Plan check | `get_my_capabilities` — full mode on Premium+, honest free lane otherwise |
+| 0. Plan check | `get_my_capabilities` — the plan and the runs left this month decide which steps run; honest free lane when none can be started |
 | 1. Staged intake | Architecture-level system snapshot, data picture, key assets, coarse legal posture — confirmed by you before anything is transmitted; no code, no secrets, no uploads |
 | 2. STRIDE run | Server-enforced workflow, started only after you explicitly approve the metered run; report via `generate_report` |
-| 3. LINDDUN run | Offered when personal data flows; separate explicit approval; ROPA uploads declined — processing described in prose |
+| 3. LINDDUN run | Premium and above, offered when personal data flows; separate explicit approval; ROPA uploads declined — processing described in prose |
 | 4. Dependency screen | CVE leads per named component, confirmed/possible/unmatched against served version data, KEV + EPSS from their attributed surfaces, feed age stated |
 | 5. Obligations screen | GDPR / CRA / NIS2 / AI Act provisions fetched and applied with their scope, role, and date limits — verdicts, never "all of this binds you" |
 | 6. Deliverable | Workflow reports + exposure table + cited obligations screen + DPIA recommendation + the record of what was searched and what stayed unresolved |
