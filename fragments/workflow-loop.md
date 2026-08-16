@@ -10,8 +10,10 @@ Call `list_workflow_types` first, on every run. It returns the live catalogue:
 type ids, the deliverable each one produces, required inputs, framework and
 jurisdiction bindings, and the date each definition was last legally reviewed.
 Pick the type from that response. The catalogue in this document is a map for
-orientation — the served list decides, and a type the caller cannot start is
-absent from it rather than refused later.
+orientation — the served list decides, and a row the caller cannot start says
+so on the row itself (`available_to_caller: false`, with a tier caveat).
+Presence is not permission: read the flags, never infer startability from a
+type merely being listed.
 
 The same rule governs data sources. Resolve corpus, framework, and jurisdiction
 ids from `describe_capabilities`; never guess an id from its name. A guessed

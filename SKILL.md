@@ -20,9 +20,9 @@ metadata:
   version: "1.3"
   composed_from:
     repo: Ansvar-Systems/ansvar-workflow-mcp
-    commit: 482c0215062a216282bd3aa54e341f1cff6ba082
+    commit: ee9bd7b4ebb70799e44976cc5f6b60295271af81
     fragments:
-      workflow-loop: 736b82c6d8fd26a708ccaffffed89ea9a9273cae9c177d6e00e238a65fc84488
+      workflow-loop: e17cd98e6822022ea384454fc144e9e784a84ab8451dc523264265ec6cfa5edc
       delivery-rules: 5dba9c7309bd2f9e121ae22e6fad66a1acefa90f47a380aa18dd9284176a3058
 ---
 
@@ -288,8 +288,10 @@ Call `list_workflow_types` first, on every run. It returns the live catalogue:
 type ids, the deliverable each one produces, required inputs, framework and
 jurisdiction bindings, and the date each definition was last legally reviewed.
 Pick the type from that response. The catalogue in this document is a map for
-orientation — the served list decides, and a type the caller cannot start is
-absent from it rather than refused later.
+orientation — the served list decides, and a row the caller cannot start says
+so on the row itself (`available_to_caller: false`, with a tier caveat).
+Presence is not permission: read the flags, never infer startability from a
+type merely being listed.
 
 The same rule governs data sources. Resolve corpus, framework, and jurisdiction
 ids from `describe_capabilities`; never guess an id from its name. A guessed
